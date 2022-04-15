@@ -39,14 +39,18 @@ public class OrderController {
     // @Valid выполняет проверку запоненного данными из
     // формы Taco taco перед вызовом processTaco
     // ошибки будут помещены в объект errors
+    // Order order объект из сессии
     public String processOrder(@Valid Order order, Errors errors,  SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
         log.info("Order submitted: " + order);
         orderRepo.save(order);
-        sessionStatus.setComplete();// очищаем Spring Session в целях безопасности личных данных
-//        SessionAttributes будут удалены, сохранив при этом HTTP сессию
+        sessionStatus.setComplete();
+//      Очищаем Spring Session в целях безопасности личных данных
+//      Если не очистить его, заказ остается в сеансе, включая связанные с ним тако
+//      и следующий заказ начнется с тако, содержащимися в старом заказе
+//      SessionAttributes будут удалены, сохранив при этом HTTP сессию
         return "redirect:/";
     }
 }

@@ -13,8 +13,10 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Arrays;
 import java.util.Date;
-@Repository
-public class JdbcTacoRepository implements TacoRepository {
+
+//not used
+//@Repository
+public class JdbcTacoRepository {
     private JdbcTemplate jdbc;
     public JdbcTacoRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;

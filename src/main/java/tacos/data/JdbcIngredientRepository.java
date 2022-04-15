@@ -10,8 +10,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@Repository// Сделать видимым для spring и создать bean
-public class JdbcIngredientRepository implements IngredientRepository {
+//not used
+//@Repository Сделать видимым для spring и создать bean
+public class JdbcIngredientRepository {
 
     private JdbcTemplate jdbc;
 

@@ -10,19 +10,16 @@ import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import tacos.Ingredient;
-import tacos.IngredientRef;
 import tacos.Order;
 import tacos.Taco;
 
 import java.sql.Types;
 import java.util.*;
 
-import static sun.security.krb5.Confounder.longValue;
-
-@Repository
-public class JdbcOrderRepository implements OrderRepository {
+//not used
+//@Repository
+public class JdbcOrderRepository {
 
     private JdbcOperations jdbcOperations;
     private JdbcTemplate jdbc;
@@ -87,39 +84,39 @@ public class JdbcOrderRepository implements OrderRepository {
 //        }
 //        return order;
 //    }
-    private long saveTaco(Long orderId, int orderKey, Taco taco) {
-        taco.setCreatedAt(new Date());
-        PreparedStatementCreatorFactory pscf =
-                new PreparedStatementCreatorFactory(
-                        "insert into Taco "
-                                + "(name, created_at, taco_order, taco_order_key) "
-                                + "values (?, ?, ?, ?)",
-                        Types.VARCHAR, Types.TIMESTAMP, Type.LONG, Type.LONG
-                );
-        pscf.setReturnGeneratedKeys(true);
-        PreparedStatementCreator psc =
-                pscf.newPreparedStatementCreator(
-                        Arrays.asList(
-                                taco.getName(),
-                                taco.getCreatedAt(),
-                                orderId,
-                                orderKey));
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcOperations.update(psc, keyHolder);
-        long tacoId = keyHolder.getKey().longValue();
-        taco.setId(tacoId);
-        saveIngredientRefs(tacoId, taco.getIngredients());
-        return tacoId;
-    }
-    private void saveIngredientRefs(long tacoId, List<Ingredient> ingredientRefs) {
-        int key = 0;
-        for (Ingredient ingredientRef : ingredientRefs) {
-            jdbcOperations.update(
-                    "insert into Ingredient_Ref (ingredient, taco, taco_key) "
-                            + "values (?, ?, ?)",
-                    ingredientRef, tacoId, key++);
-        }
-    }
+//    private long saveTaco(Long orderId, int orderKey, Taco taco) {
+//        taco.setCreatedAt(new Date());
+//        PreparedStatementCreatorFactory pscf =
+//                new PreparedStatementCreatorFactory(
+//                        "insert into Taco "
+//                                + "(name, created_at, taco_order, taco_order_key) "
+//                                + "values (?, ?, ?, ?)",
+//                        Types.VARCHAR, Types.TIMESTAMP, Type.LONG, Type.LONG
+//                );
+//        pscf.setReturnGeneratedKeys(true);
+//        PreparedStatementCreator psc =
+//                pscf.newPreparedStatementCreator(
+//                        Arrays.asList(
+//                                taco.getName(),
+//                                taco.getCreatedAt(),
+//                                orderId,
+//                                orderKey));
+//        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+//        jdbcOperations.update(psc, keyHolder);
+//        long tacoId = keyHolder.getKey().longValue();
+//        taco.setId(tacoId);
+//        saveIngredientRefs(tacoId, taco.getIngredients());
+//        return tacoId;
+//    }
+//    private void saveIngredientRefs(long tacoId, List<Ingredient> ingredientRefs) {
+//        int key = 0;
+//        for (Ingredient ingredientRef : ingredientRefs) {
+//            jdbcOperations.update(
+//                    "insert into Ingredient_Ref (ingredient, taco, taco_key) "
+//                            + "values (?, ?, ?)",
+//                    ingredientRef, tacoId, key++);
+//        }
+//    }
 //  2 способ с SimpleJdbcInsert
     @Override
     public Order save(Order order) {
