@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 //not used
-//@Repository Сделать видимым для spring и создать bean
-public class JdbcIngredientRepository {
+@Repository //Сделать видимым для spring и создать bean
+public class JdbcIngredientRepository implements IngredientRepository {
 
     private JdbcTemplate jdbc;
 

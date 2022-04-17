@@ -15,26 +15,20 @@ import javax.validation.constraints.Size;
 public class Taco {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)// Авто генерация Id
+//    @GeneratedValue(strategy=GenerationType.AUTO)// Авто генерация Id
     private Long id;
-    private Date createdAt = new Date();
+    private Date createdAt;
 
     public Taco() {}
 
-    //Validating form input
-    @NotNull//поле не должно быть пустым
+    // Валидация
+    @NotNull// Поле не должно быть пустым
     @Size(min=5, message="Name must be at least 5 characters long")//не менее 5 символов
     private String name;
 
     @NotNull
-    @ManyToMany(targetEntity=Ingredient.class)
-    // Taco может иметь много объектов Ingredient и Ingredient может быть частью многих Taco
+//    @ManyToMany(targetEntity=Ingredient.class)
+//    Taco может иметь много объектов Ingredient и Ingredient может быть частью многих Taco
     @Size(min=1, message="You must choose at least 1 ingredient")
     private List<Ingredient> ingredients = new ArrayList<>();
-
-    @PrePersist
-    void createdAt() {
-        this.createdAt = new Date();
-    }
-
 }

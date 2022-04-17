@@ -18,8 +18,8 @@ import java.sql.Types;
 import java.util.*;
 
 //not used
-//@Repository
-public class JdbcOrderRepository {
+@Repository
+public class JdbcOrderRepository implements OrderRepository{
 
     private JdbcOperations jdbcOperations;
     private JdbcTemplate jdbc;
@@ -129,10 +129,10 @@ public class JdbcOrderRepository {
         }
         return order;
     }
-    private long saveOrderDetails(Order order) {
+    private long saveOrderDetails(Order order) {// 4009736722384759
         @SuppressWarnings("unchecked")
         Map<String, Object> values = objectMapper.convertValue(order, Map.class);
-        values.put("CreatedAt", order.getCreatedAt());
+        values.put("createdAt", order.getCreatedAt());
         long orderId =orderInserter.executeAndReturnKey(values).longValue();
         return orderId;
     }

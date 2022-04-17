@@ -42,7 +42,7 @@ public class Order implements Serializable {
     @NotBlank(message="Zip code is required")
     private String zip;
 
-    @CreditCardNumber(message="Not a valid credit card number")
+    @CreditCardNumber(message="Not a valid credit card number")// 4009736722384759
     private String ccNumber;
 
     @Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$", message="Must be formatted MM/YY")
@@ -56,10 +56,5 @@ public class Order implements Serializable {
 
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
-    }
-
-    @PrePersist
-    void placedAt() {
-        this.createdAt = new Date();
     }
 }

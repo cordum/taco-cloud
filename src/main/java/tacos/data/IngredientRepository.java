@@ -16,8 +16,8 @@ import java.util.Optional;
 // При запуске приложения Spring Data JPA автоматически создает реализацию на лету.
 // т.е. репозитории готовы к использованию
 // Просто добавляем их в контроллеры, как мы делали для реализаций на основе JDBC, и все готово.
-public interface IngredientRepository extends CrudRepository<Ingredient, String> {
-//    List<Ingredient> findAll();
-//    Optional<Ingredient> findOne(String id);
-//    Ingredient save(Ingredient ingredient);
+public interface IngredientRepository {//extends CrudRepository<Ingredient, String> {
+    List<Ingredient> findAll();
+    Optional<Ingredient> findOne(String id);
+    Ingredient save(Ingredient ingredient);
 }

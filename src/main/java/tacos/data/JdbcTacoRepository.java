@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 //not used
-//@Repository
-public class JdbcTacoRepository {
+@Repository
+public class JdbcTacoRepository implements TacoRepository{
     private JdbcTemplate jdbc;
     public JdbcTacoRepository(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
@@ -34,11 +34,23 @@ public class JdbcTacoRepository {
     // NULL not allowed for column "TACO_ORDER"
     private long saveTacoInfo(Taco taco) {
         taco.setCreatedAt(new Date());
+//        PreparedStatementCreator psc =
+//                new PreparedStatementCreatorFactory(
+//                        "insert into Taco (name, created_at) values (?, ?)",
+//                        Types.VARCHAR, Types.TIMESTAMP
+//                ).newPreparedStatementCreator(
+//                        Arrays.asList(
+//                                taco.getName(),
+//                                new Timestamp(taco.getCreatedAt().getTime())));
+        PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
+                "insert into Taco (name, created_at) values (?, ?)",
+                Types.VARCHAR, Types.TIMESTAMP);
+
+// By default, returnGeneratedKeys = false so change it to true
+        pscf.setReturnGeneratedKeys(true);
+
         PreparedStatementCreator psc =
-                new PreparedStatementCreatorFactory(
-                        "insert into Taco (name, created_at) values (?, ?)",
-                        Types.VARCHAR, Types.TIMESTAMP
-                ).newPreparedStatementCreator(
+                pscf.newPreparedStatementCreator(
                         Arrays.asList(
                                 taco.getName(),
                                 new Timestamp(taco.getCreatedAt().getTime())));
@@ -48,7 +60,7 @@ public class JdbcTacoRepository {
         return keyHolder.getKey().longValue();
     }
     private void saveIngredientToTaco(Ingredient ingredient, long tacoId) {
-        jdbc.update("insert into Taco_Ingredients (taco, ingredient) values (?, ?)", tacoId, ingredient.getId());
+        jdbc.update("insert into Ingredient (id, name, type) values (?, ?, ?)", tacoId, ingredient.getName(), ingredient.getType().toString());
     }
 //=================================================
 }
