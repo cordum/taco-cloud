@@ -1,13 +1,13 @@
 package tacos;
 
-//import com.sun.istack.internal.NotNull;
-import lombok.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
+import lombok.Data;
 
 @Data
 //@Entity
@@ -17,9 +17,7 @@ public class Taco {
     @Id
 //    @GeneratedValue(strategy=GenerationType.AUTO)// Авто генерация Id
     private Long id;
-    private Date createdAt;
-
-    public Taco() {}
+    private Date createdAt = new Date();
 
     // Валидация
     @NotNull// Поле не должно быть пустым

@@ -5,10 +5,10 @@ create table if not exists Taco_Order (
     city varchar(50) not null,
     state varchar(50) not null,
     zip varchar(10) not null,
-    ccNumber varchar(16) not null,
-    ccExpiration varchar(5) not null,
-    ccCvv varchar(3) not null,
-    createdAt timestamp not null
+    cc_Number varchar(16) not null,
+    cc_Expiration varchar(5) not null,
+    cc_Cvv varchar(3) not null,
+    created_At timestamp
 );
 create table if not exists Taco (
     id identity,

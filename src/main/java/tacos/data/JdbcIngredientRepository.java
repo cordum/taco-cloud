@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 //not used
-@Repository //Сделать видимым для spring и создать bean
-public class JdbcIngredientRepository implements IngredientRepository {
+//@Repository //Сделать видимым для spring и создать bean
+public class JdbcIngredientRepository {//implements IngredientRepository {
 
     private JdbcTemplate jdbc;
 
@@ -22,12 +22,12 @@ public class JdbcIngredientRepository implements IngredientRepository {
         this.jdbc = jdbc;
     }
 
-    @Override
+//    @Override
     public List<Ingredient> findAll() {
         return jdbc.query("select id, name, type from Ingredient", this::mapRowToIngredient);
     }
 
-    @Override
+//    @Override
     public Optional<Ingredient> findOne(String id) {
 //        return jdbc.queryForObject("select id, name, type from Ingredient where id=?", this::mapRowToIngredient, id);
         List<Ingredient> results = jdbc.query(

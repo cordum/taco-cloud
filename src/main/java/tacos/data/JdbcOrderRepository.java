@@ -1,25 +1,18 @@
 package tacos.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.asm.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.stereotype.Repository;
-import tacos.Ingredient;
-import tacos.Order;
+import tacos.TacoOrder;
 import tacos.Taco;
 
-import java.sql.Types;
 import java.util.*;
 
 //not used
-@Repository
-public class JdbcOrderRepository implements OrderRepository{
+//@Repository
+public class JdbcOrderRepository {//implements OrderRepository{
 
     private JdbcOperations jdbcOperations;
     private JdbcTemplate jdbc;
@@ -118,21 +111,21 @@ public class JdbcOrderRepository implements OrderRepository{
 //        }
 //    }
 //  2 способ с SimpleJdbcInsert
-    @Override
-    public Order save(Order order) {
-        order.setCreatedAt(new Date());
-        long orderId = saveOrderDetails(order);
-        order.setId(orderId);
-        List<Taco> tacos = order.getTacos();
+//    @Override
+    public TacoOrder save(TacoOrder tacoOrder) {
+        tacoOrder.setCreatedAt(new Date());
+        long orderId = saveOrderDetails(tacoOrder);
+        tacoOrder.setId(orderId);
+        List<Taco> tacos = tacoOrder.getTacos();
         for (Taco taco : tacos) {
             saveTacoToOrder(taco, orderId);
         }
-        return order;
+        return tacoOrder;
     }
-    private long saveOrderDetails(Order order) {// 4009736722384759
+    private long saveOrderDetails(TacoOrder tacoOrder) {// 4009736722384759
         @SuppressWarnings("unchecked")
-        Map<String, Object> values = objectMapper.convertValue(order, Map.class);
-        values.put("createdAt", order.getCreatedAt());
+        Map<String, Object> values = objectMapper.convertValue(tacoOrder, Map.class);
+        values.put("createdAt", tacoOrder.getCreatedAt());
         long orderId =orderInserter.executeAndReturnKey(values).longValue();
         return orderId;
     }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import tacos.Order;
+import tacos.TacoOrder;
 import tacos.data.OrderRepository;
 
 import javax.validation.Valid;
@@ -29,9 +29,9 @@ public class OrderController {
     @GetMapping("/current")
     public String orderForm(Model model) {
 //      с помощью модели передадим параметры запроса в представление        
-//      ключ "order"
-//      значение new Order()
-        model.addAttribute("order", new Order());
+//      ключ "tacoOrder"
+//      значение new TacoOrder()
+        model.addAttribute("tacoOrder", new TacoOrder());
         return "orderForm";
     }
 
@@ -40,12 +40,12 @@ public class OrderController {
     // формы Taco taco перед вызовом processTaco
     // ошибки будут помещены в объект errors
     // Order order объект из сессии
-    public String processOrder(@Valid Order order, Errors errors,  SessionStatus sessionStatus) {
+    public String processOrder(@Valid TacoOrder tacoOrder, Errors errors, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
-        log.info("Order submitted: " + order);
-        orderRepo.save(order);
+        log.info("Order submitted: " + tacoOrder);
+        orderRepo.save(tacoOrder);
         sessionStatus.setComplete();
 //      Очищаем Spring Session в целях безопасности личных данных
 //      Если не очистить его, заказ остается в сеансе, включая связанные с ним тако

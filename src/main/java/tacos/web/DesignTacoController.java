@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
-import tacos.Order;
+import tacos.TacoOrder;
 import tacos.Taco;
 import tacos.data.IngredientRepository;
 import tacos.data.TacoRepository;
@@ -26,7 +26,7 @@ import javax.validation.Valid;
 // когда пользователь кликнул и перешел по начальному URL и до самого закрытия последнего URL
 public class DesignTacoController {
 
-    private final IngredientRepository ingredientRepo;
+    private IngredientRepository ingredientRepo;
     private TacoRepository tacoRepo;
 
     @Autowired
@@ -34,10 +34,11 @@ public class DesignTacoController {
         this.ingredientRepo = ingredientRepo;
         this.tacoRepo = tacoRepo;
     }
+
     @ModelAttribute(name = "order")// @SessionAttributes("order") тот же объект, содержит состояние заказа
     // помещаем его в модель
-    public Order order() {
-        return new Order();
+    public TacoOrder order() {
+        return new TacoOrder();
     }
     @ModelAttribute(name = "taco")// Модель передает данные между контроллером и представлением
     public Taco taco() {
@@ -45,7 +46,7 @@ public class DesignTacoController {
     }
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredient> ingredients = ingredientRepo.findAll();
+        List<Ingredient> ingredients = (List<Ingredient>) ingredientRepo.findAll();
         Type[] types = Ingredient.Type.values();
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients, type));
@@ -57,11 +58,11 @@ public class DesignTacoController {
     }
     // Параметр Order аннотируется @ModelAttribute, чтобы указать, что его значение должно исходить из модели
     @PostMapping
-    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute Order order) {
+    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
         if (errors.hasErrors())
             return "design";
         Taco saved = tacoRepo.save(taco);
-        order.addTaco(saved);// order сохраняется в сеансе
+        tacoOrder.addTaco(saved);// order сохраняется в сеансе
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";
     }

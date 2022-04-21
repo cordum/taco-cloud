@@ -1,10 +1,10 @@
 package tacos.data;
 
 import org.springframework.data.repository.CrudRepository;
-import tacos.Order;
+import tacos.TacoOrder;
 
-public interface OrderRepository {//extends CrudRepository<Order, Long> {
-    Order save(Order order);
+public interface OrderRepository extends CrudRepository<TacoOrder, Long> {
+//    Order save(Order order);
 //    если нужен метод которого нет в CrudRepository
 //    напр. нужно получить все заказы, доставленные по заданному почтовому индексу,
 //    просто пишем:
