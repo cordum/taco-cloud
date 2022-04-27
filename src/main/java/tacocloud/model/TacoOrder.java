@@ -1,30 +1,34 @@
-package tacos;
+package tacocloud.model;
 
+import lombok.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
-import lombok.Data;
 
 @Data
-//@Entity
-@Table//(name="Taco_Order")
-// Опциональная аннотация. Связываем класс с таблицей БД, опционально в скобках можно указать уточнение
+@Entity
+//@Table//(name="Taco_Order")
+// Опциональная аннотация Jdbc. Связываем класс с таблицей БД, опционально в скобках можно указать уточнение
 public class TacoOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-//    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    private Date createdAt;
+    private Date createdAt = new Date();
 
     @NotBlank(message="Name is required")
     private String name;
@@ -50,7 +54,9 @@ public class TacoOrder implements Serializable {
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
 
-//    @ManyToMany(targetEntity=Taco.class)
+//    Один заказ имеет много тако
+//    cascade = CascadeType.ALL Если заказ удалить - все тако будут удалены
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Taco> tacos = new ArrayList<>();
 
     public void addTaco(Taco taco) {
