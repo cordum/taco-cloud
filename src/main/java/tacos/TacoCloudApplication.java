@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication//=
-// @SpringBootConfiguration обозначает, что этот класс является классом конфигурации.
+// @SpringBootConfiguration, что этот класс является классом конфигурации.
 // Эта аннотация является, фактически, специализированной формой аннотации @Configuration
 // @EnableAutoConfiguration включает автоматическое Spring Boot конфигурирование.
 // Эта аннотация говорит Spring Boot автоматически настраивать любые компоненты, которые, по его мнению, нам понадобятся.
