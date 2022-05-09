@@ -2,8 +2,10 @@ package tacocloud.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,8 +23,9 @@ import tacocloud.repository.UserRepository;
 // Все url оказываются недоступны, пока мы не «залогинимся» под этим пользователем.
 // Создается страница, где можно «разлогиниться». Она находится по адресу logout.
 @Configuration
-@EnableWebSecurity// Надо ли
-public class SecurityConfig {
+// Для использования @PreAuthorize нужно добавить:
+@EnableGlobalMethodSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //4.2.2 JDBC-based user store
 //    @Autowired
@@ -35,7 +38,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    csrf
 //    Можно прописать пользователя и пароль в application.properties
 //    Spring Security имеет несколько реализаций интерф UserDetailsService:
 //      in-memory
@@ -139,14 +141,19 @@ public class SecurityConfig {
                     .authorizeRequests()
 //                   запросы /design и /orders доступны только авторизованным пользователям (с ролью ROLE_USER)
 //                   префикс ROLE_ не указывается
-                    .antMatchers("/design", "/orders").hasRole("USER")// ROLE_USER
-                    .antMatchers("/", "/**").permitAll()
+                        .antMatchers("/design", "/orders").hasRole("USER")// ROLE_USER
+                        .antMatchers("/", "/**").permitAll()
                     .and()
-                    .formLogin()
-                    .loginPage("/login")
+                        .formLogin()
+                            .loginPage("/login")
+// Enable both a third-party OAuth2 login and traditional username-password login
+                    .and()
+                        .oauth2Login()
+                            .loginPage("/login")
+                    .and()
+                        .logout()
                     .and()
                     .build();
-
         }
 
         @Bean
@@ -158,7 +165,8 @@ public class SecurityConfig {
             };
         }
 
-
-
+//  csrf
+//  Скрытое поле на форме
+//  <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 //    }
 }
