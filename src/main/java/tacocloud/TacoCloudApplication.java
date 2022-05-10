@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import tacocloud.model.Ingredient;
 import tacocloud.repository.IngredientRepository;
 
@@ -30,6 +31,10 @@ public class TacoCloudApplication {
     }
 
     @Bean
+//  Только для профиля home
+    @Profile({"home", "work"})
+//  Bean создается если prod не активен
+//  @Profile("!prod")
     public CommandLineRunner dataLoader(IngredientRepository repo) {
         return args -> {
             repo.save(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP));

@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    Можно прописать пользователя и пароль в application.properties
+//    Можно прописать пользователя и пароль в application.yml
 //    Spring Security имеет несколько реализаций интерф UserDetailsService:
 //      in-memory
 //      JDBC user store

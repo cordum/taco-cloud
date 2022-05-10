@@ -1,0 +1,70 @@
+name: common-YAML
+#server:
+#   port: 1111
+spring:
+  config:
+    activate:
+      on-profile: common
+  devtools:
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: 'false'
+
+#By default, the database name is randomly generated. But that makes it hard to determine the database URL
+#http://localhost:8080/h2- встроенная база данных
+#So, it’s a good idea to pin down the database name
+  datasource:
+    generate-unique-name: 'false'
+    name: tacocloud
+
+# Добавляем пользователей для теста
+#  security:
+#      user:
+#        default:
+#          userName: user
+#          password: 123
+#          name: Din
+#          street: 'Wall Street'
+#          city: 'New York City'
+#          state: 'New-York'
+#          zip: 10005
+#          phoneNumber: '+1 770-937-9735'
+
+# Third-party authentication
+# <artifactId>spring-boot-starter-oauth2-client</artifactId>
+# Дадим возможность логиниться через facebook
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          facebook:
+#            client-id: 'facebook client id'
+#            client-secret: 'facebook client'
+#            scope: email, public_profile
+
+# Активация профиля в переменной окружения
+#                     environment variable
+#     % export SPRING_PROFILES_ACTIVE=home
+---
+name: home-YAML
+
+spring:
+  config:
+    activate:
+      on-profile: home
+
+server:
+  port: 1111
+
+---
+
+name: work-YAML
+
+spring:
+  config:
+    activate:
+      on-profile: work
+
+server:
+  port: 8080
