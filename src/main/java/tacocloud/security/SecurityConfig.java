@@ -24,8 +24,8 @@ import tacocloud.repository.UserRepository;
 // Создается страница, где можно «разлогиниться». Она находится по адресу logout.
 @Configuration
 // Для использования @PreAuthorize нужно добавить:
-@EnableGlobalMethodSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+// @EnableGlobalMethodSecurity
+public class SecurityConfig {
 
     //4.2.2 JDBC-based user store
 //    @Autowired
@@ -147,12 +147,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .formLogin()
                             .loginPage("/login")
 // Enable both a third-party OAuth2 login and traditional username-password login
-                    .and()
-                        .oauth2Login()
-                            .loginPage("/login")
+//                    .and()
+//                        .oauth2Login()
+//                            .loginPage("/login")
                     .and()
                         .logout()
                     .and()
+// @EnableWebSecurity enables spring security and it by default enables csrf support,
+// For work you must disable it in order to prevent 403 errors
+                        .csrf().disable()
                     .build();
         }
 

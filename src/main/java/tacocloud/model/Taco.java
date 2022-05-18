@@ -1,6 +1,7 @@
 package tacocloud.model;
 
 import lombok.Data;
+import org.springframework.data.rest.core.annotation.RestResource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,9 @@ import javax.validation.constraints.Size;
 @Data
 @Entity
 //@Table
+// Relation name and path
+// Иначе путь будет /data-api/tacoes
+@RestResource(rel="tacos", path="tacos")
 public class Taco {
 
     @Id

@@ -1,24 +1,30 @@
-name: common-YAML
+#name: common-YAML
 #server:
-#   port: 1111
+#   port: 1111
 spring:
-  config:
-    activate:
-      on-profile: common
+#  config:
+#    activate:
+#      on-profile: common
   devtools:
     restart:
       enabled: true
   thymeleaf:
     cache: 'false'
+# РЈСЃС‚Р°РЅРѕРІРєР° Р±Р°Р·РѕРІРѕРіРѕ РїСѓС‚Рё РґР»СЏ Spring Data REST endpoints
+# С‡С‚РѕР±С‹ РЅРµ Р±С‹Р»Рѕ РєРѕР»Р»РёР·РёР№ СЃ tacocloud.web.api.TacoController
+# <artifactId>spring-boot-starter-data-rest</artifactId>
+  data:
+    rest:
+      base-path: /data-api
 
-#By default, the database name is randomly generated. But that makes it hard to determine the database URL
-#http://localhost:8080/h2- встроенная база данных
-#So, it’s a good idea to pin down the database name
+
+# By default, the database name is randomly generated. But that makes it hard to determine the database URL
+# http://localhost:8080/h2-
+# So, it's a good idea to pin down the database name
   datasource:
     generate-unique-name: 'false'
     name: tacocloud
 
-# Добавляем пользователей для теста
 #  security:
 #      user:
 #        default:
@@ -33,7 +39,6 @@ spring:
 
 # Third-party authentication
 # <artifactId>spring-boot-starter-oauth2-client</artifactId>
-# Дадим возможность логиниться через facebook
 #  security:
 #    oauth2:
 #      client:
@@ -43,28 +48,27 @@ spring:
 #            client-secret: 'facebook client'
 #            scope: email, public_profile
 
-# Активация профиля в переменной окружения
-#                     environment variable
+# Profile Activation with environment variable
 #     % export SPRING_PROFILES_ACTIVE=home
----
-name: home-YAML
-
-spring:
-  config:
-    activate:
-      on-profile: home
-
-server:
-  port: 1111
-
----
-
-name: work-YAML
-
-spring:
-  config:
-    activate:
-      on-profile: work
-
-server:
-  port: 8080
+#---
+#name: home-YAML
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: home
+#
+#server:
+#  port: 1111
+#
+#---
+#
+#name: work-YAML
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: work
+#
+#server:
+#  port: 8080

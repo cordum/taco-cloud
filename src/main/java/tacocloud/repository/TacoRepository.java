@@ -1,7 +1,11 @@
 package tacocloud.repository;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import tacocloud.model.Taco;
 
-public interface TacoRepository extends CrudRepository<Taco, Long> {
+import java.net.ContentHandler;
+
+public interface TacoRepository extends PagingAndSortingRepository<Taco, Long> {//CrudRepository<Taco, Long> {
 }

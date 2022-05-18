@@ -25,7 +25,6 @@ import java.security.Principal;
 
 @Slf4j// Логгер
 @Controller// обрабатывает HTTP-запросы и передает запрос в представление
-// @RestController записывает данные непосредственно в тело ответа
 @RequestMapping("/orders")
 @SessionAttributes("order")
 public class OrderController {
@@ -78,10 +77,10 @@ public class OrderController {
     }
 
 //  Пример использования ConfigurationProperties
-    @GetMapping
-    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
-        Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
-        model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
-        return "orderList";
-    }
+//    @GetMapping
+//    public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+//        Pageable pageable = PageRequest.of(0, orderProps.getPageSize());
+//        model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable));
+//        return "orderList";
+//    }
 }
