@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 //readme
 //readme
-//readme
 @Data// генерирует конструктор, геттеры/сеттеры
 // @Table необяз аннотация Data Jdbc
 @Entity// Объявляем сущностью JPA
